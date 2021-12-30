@@ -1,0 +1,29 @@
+// @import "bootstrap__imports";
+// @import "../sass/cores__font";
+@import "../sass/mixins"; //MIXINS
+@import "../sass/variaveis_gerais"; //MIXINS
+@import "../sass/variaveis_cores"; //MIXINS
+// UTILIDADES
+@import "../sass/utilities/utilitarios";
+@import "../sass/utilities/responsivo";
+@import "../sass/utilities/reset";
+@import "../sass/utilities/animation";
+
+
+//components
+@import "../sass/components/body"; //BODY
+@import "../sass/components/menu";
+@import "../sass/components/footer";
+
+// PÁGINAS
+main {
+    overflow: hidden;
+}
+
+.body__modelo1 {
+    @import "./pages/page_modelo1";
+}
+
+.body__modelo2 {
+    @import "./pages/page_modelo1";
+}

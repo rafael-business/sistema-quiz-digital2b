@@ -1,0 +1,41 @@
+.acf-field[data-name="esquema_de_cor"] li {
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    width: 80px;
+    background-size: cover;
+}
+
+.acf-field[data-name="esquema_de_cor"] li:before {
+    width: 80px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    overflow: hidden;
+    background-size: cover!important;
+}
+
+.acf-field[data-name="esquema_de_cor"] li:nth-child(1):before {
+    content: url('images/padrao.png');
+}
+
+.acf-field[data-name="esquema_de_cor"] li:nth-child(2):before {
+    content: url('images/esquema-1.png');
+}
+
+.acf-field[data-name="esquema_de_cor"] li:nth-child(3):before {
+    content: url('images/esquema-2.png');
+}
+
+.acf-field[data-name="esquema_de_cor"] li:nth-child(4):before {
+    content: url('images/esquema-3.png');
+}
+
+#menu-posts-assessment {
+    margin-top: 12px !important;
+}
+
+#menu-posts-respostas {
+    margin-bottom: 12px !important;
+}
