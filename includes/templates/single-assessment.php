@@ -79,7 +79,8 @@ if ( $assessment ) {
         $total_pontos[$mid] += $_pts[$pergunta_id];
         ksort( $modulos[$mid] );
 
-        $pergunta_img[$pergunta_id] = $pergunta['pergunta_img'];
+        $pergunta_img[$pergunta_id] = isset( $pergunta['pergunta_img'] ) && $pergunta['pergunta_img'] ? $pergunta['pergunta_img'] : $assets .'img/coca-cola.png';
+        $material_exemplo[$pergunta_id] = wp_get_attachment_url( $pergunta['pergunta_material_exemplo'] );
 
         $respondidas += active( $pergunta_id ) ? 1 : 0;
         if ( 2 === count( $nao_respondida ) ) continue;
@@ -88,10 +89,18 @@ if ( $assessment ) {
             $nao_respondida[$pergunta['pergunta_ordem']] = $pergunta_id;
         endif;
     endforeach;
-    ksort( $nao_respondida );
+    ksort( $nao_respondida, SORT_NUMERIC );
 
     $pid = isset( $_GET['pergunta'] ) ? $_GET['pergunta'] : null;
     $pergunta_all = new WP_REST_Request( 'GET', '/wp/v2/perguntas/'. $pid );
+    $pergunta_all->set_query_params(
+        array(
+            'per_page'  => 100,
+            'status'    => 'publish',
+            'order'     => 'DESC',
+            'orderby'   => 'ID',
+        )
+    );
     $pergunta_all = rest_do_request( $pergunta_all );
     $pergunta_all = rest_get_server()->response_to_data( $pergunta_all, true );
     $proxima = $pid ? 1 : 0;
@@ -108,6 +117,10 @@ function monta_query( $pid ){
 
     $the_query = new WP_Query( array(
         'post_type'     => 'respostas',
+        'nopaging'      => TRUE,
+        'posts_per_page'=> -1,
+        'order'         => 'DESC',
+        'orderby'       => 'ID',
         'meta_query'    => array(
             array(
                 'key'   => 'respostas/resposta_pergunta',
@@ -326,6 +339,11 @@ function pontos( $pid ){
                           <div class="title">
                             <h2><?= $pergunta_all['title']['rendered'] ?></h2>
                             <p><?= $pergunta_all['content']['rendered'] ?></p>
+                            <?php
+                            if ( $material_exemplo[$pergunta_all['id']] ) : ?>
+                            <p><a href="<?= $material_exemplo[$pergunta_all['id']] ?>" target="_blank">Material de Exemplo</a></p>
+                            <?php
+                            endif; ?>
                           </div>
                           <div class="questions__wrapper">
                             <?php
@@ -386,8 +404,23 @@ function pontos( $pid ){
                     elseif ( isset( $_GET['fim'] ) ) : ?>
                     <div class="content-wrapper">
                         <div class="text-content">
-                            <div class="text-content-item" id="instrucoes">
-                                <h3>Finalizado</h3>
+                            <div class="text-content-item" id="fim">
+                                <h2 style="color: #4a0000ff; margin-bottom: 20px;">Parabéns!</h2>
+                                <div>
+                                    Você concluiu seu assessment.<br />
+                                    Em seu resultado, conseguimos identificar algumas oportunidades:
+                                </div>
+                                <ol style="padding: 20px;">
+                                <?php
+                                foreach ( $modulos as $mid => $perguntas_ordenadas ) : 
+
+                                    $term = get_term( $mid );
+                                    $modulo_name = $term->name;
+
+                                    echo '<li style="list-style: inherit; padding-left: 10px;">'. $modulo_name .' - '. $total_pontos[$mid] .' pontos, dentre '. $all_pontos[$mid] .' possíveis.'.'</li>';
+                                endforeach;
+                                ?>
+                                </ol>
                             </div>
                             <div class="btn__container">
                                 <a href="<?= $current_url ?>" class="btn-primario">Sair</a>

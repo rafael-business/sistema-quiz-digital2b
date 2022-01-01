@@ -16,7 +16,7 @@
  * Plugin Name:       Sistema de Assessment Digital2b
  * Plugin URI:        https://www.digital2b.com
  * Description:       Sistema de Assessments
- * Version:           2.0.0
+ * Version:           2.1.0
  * Author:            Guilherme Lopes / Rafael Business
  * Author URI:        https://www.digital2b.com
  * License:           GPL-2.0+

@@ -302,7 +302,11 @@ class sistema_assessment_digital2b_Public {
 			'post_type'		=> 'assessment',
 			'post_status' 	=> array( 'publish' ),
     		'perm'        	=> 'readable',
-			'p'				=> $get['assessment']
+			'p'				=> $get['assessment'],
+			'nopaging'      => TRUE,
+			'posts_per_page'=> -1,
+			'order'         => 'DESC',
+			'orderby'       => 'ID'
 		));
 		
 		if ( $query_assessments->have_posts() ) {
@@ -332,7 +336,11 @@ class sistema_assessment_digital2b_Public {
 							'value' 				=> $get['assessment'],
 							'carbon_field_property' => 'id'
 						),
-					)
+					),
+					'nopaging'      => TRUE,
+					'posts_per_page'=> -1,
+					'order'         => 'ASC',
+					'orderby'       => 'ID'
 				);
 				$perguntas = get_posts( $args_perguntas );
 				if ( $perguntas ) {
@@ -352,6 +360,7 @@ class sistema_assessment_digital2b_Public {
 						$front['assessment_perguntas'][$pergunta]['pergunta_ordem'] = carbon_get_post_meta( $pergunta, 'pergunta_ordem' );
 						$front['assessment_perguntas'][$pergunta]['pergunta_img'] = carbon_get_post_meta( $pergunta, 'pergunta_img' );
 						$front['assessment_perguntas'][$pergunta]['pergunta_pontos_total'] = carbon_get_post_meta( $pergunta, 'pergunta_pontos_total' );
+						$front['assessment_perguntas'][$pergunta]['pergunta_material_exemplo'] = carbon_get_post_meta( $pergunta, 'pergunta_material_exemplo' );
 						$front['assessment_perguntas'][$pergunta]['tipo_de_resposta'] = carbon_get_post_meta( $pergunta, 'tipo_de_resposta' );
 						$front['assessment_perguntas'][$pergunta]['respostas'] = carbon_get_post_meta( $pergunta, 'pergunta_resposta' );
 						if ( isset( $get['manufacturer'] ) ) {
@@ -370,7 +379,11 @@ class sistema_assessment_digital2b_Public {
 										'value' => $pergunta,
 										'carbon_field_property' => 'id'
 									),
-								)
+								),
+								'nopaging'      => TRUE,
+								'posts_per_page'=> -1,
+								'order'         => 'DESC',
+								'orderby'       => 'ID'
 							);
 							$respostas = get_posts( $args_respostas );
 
@@ -499,6 +512,8 @@ class sistema_assessment_digital2b_Public {
 					->set_visible_in_rest_api( true )
 					->set_attribute( 'type', 'number' )
 					->set_attribute( 'min', 0 ),
+				Field::make('file' , 'pergunta_material_exemplo' , 'Material de Exemplo')
+					->set_visible_in_rest_api( true ),
 				Field::make( 'separator', 'respostas_grad_separator', 'Respostas para esta Pergunta' )
 					->set_visible_in_rest_api( false ),
 				Field::make( 'select', 'tipo_de_resposta', 'Tipo de resposta' )
