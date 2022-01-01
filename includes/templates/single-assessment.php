@@ -249,7 +249,7 @@ function pontos( $pid ){
                         <li class="accordion-item">
                             <div class="accordion__lista-header accordion-header">
                                 <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse_<?= $mid ?>"
-                                    aria-expanded="false" aria-controls="collapse3">
+                                    aria-expanded="false" aria-controls="collapse3" data-mid="<?= $mid ?>">
                                     <div class="accordion-title">
                                         <span class="name-category"><?= $modulo_name ?></span>
                                         <span class="points">
@@ -274,7 +274,7 @@ function pontos( $pid ){
                                                 $pts = $pergunta['pergunta_pontos_total'];
                                                 $active = null !== active( $pergunta_id ) ? active( $pergunta_id )['id'] : null;
                                             ?>
-                                            <li class="nav-item <?= $active ? 'active-bar' : '' ?>">
+                                            <li class="nav-item <?= $active ? 'active-bar' : '' ?>" data-pid="<?= $pergunta_id ?>">
                                                 <a class="nav-link active " aria-current="page" href="?pergunta=<?= $pergunta_id ?>">
                                                     <div class="nav-link-flex">
                                                         <span class="name-sub-category"><?= $pergunta['pergunta_title']; ?></span>

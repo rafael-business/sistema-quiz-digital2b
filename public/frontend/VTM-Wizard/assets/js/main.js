@@ -45,4 +45,39 @@ if (pageModelo2) { // ★ HOME
 
 document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("dcl");
+
+    var url = new URL(window.location.href);
+    var pid = url.searchParams.get("pergunta");
+    var pid_li = document.querySelector("[data-pid='"+pid+"']");
+    var item = pid_li.closest(".accordion-item");
+    var mid_btn = item.querySelector(".accordion-button");
+
+    pid_li.style.backgroundColor = "rgba(0,0,0,.1)";
+    simulateClick(mid_btn);
+
+    function simulateClick(elem) {
+        
+        var evt = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        
+        var canceled = !elem.dispatchEvent(evt);
+    }
+
+    function next(elem, selector) {
+
+        var nextElem = elem.nextElementSibling;
+    
+        if (!selector) {
+            return nextElem;
+        }
+    
+        if (nextElem && nextElem.matches(selector)) {
+            return nextElem;
+        }
+    
+        return null;
+    }
 });
